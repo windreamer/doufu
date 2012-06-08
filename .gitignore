@@ -10,3 +10,18 @@
 *.lai
 *.la
 *.a
+
+# autotools stuff
+Makefile
+Makefile.am
+Makefile.in
+aclocal.m4
+autom4te.cache/
+config.log
+config.status
+configure
+include/config.h
+include/config.h.in~
+include/stamp-h1
+install-sh
+missing
