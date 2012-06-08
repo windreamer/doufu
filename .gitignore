@@ -14,14 +14,15 @@
 # autotools stuff
 Makefile
 Makefile.in
-aclocal.m4
-autom4te.cache/
-config.log
-config.status
-configure
-depcomp
+/aclocal.m4
+/autom4te.cache/
+/config.log
+/config.status
+/configure
+/depcomp
 include/config.h
 include/config.h.in~
 include/stamp-h1
-install-sh
-missing
+/install-sh
+/missing
+.deps/
