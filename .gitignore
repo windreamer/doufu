@@ -27,6 +27,7 @@ include/stamp-h1
 /missing
 .deps/
 
-#binaries
+#output
 /barrier/barrier
 /coordinator/coordinator
+/docs/presentation/doufu.html
