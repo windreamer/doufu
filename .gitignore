@@ -26,3 +26,7 @@ include/stamp-h1
 /install-sh
 /missing
 .deps/
+
+#binaries
+/barrier/barrier
+/coordinator/coordinator

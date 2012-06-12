@@ -1,1 +1,1 @@
-SUBDIRS = coordinator barrier
+SUBDIRS = barrier coordinator 
