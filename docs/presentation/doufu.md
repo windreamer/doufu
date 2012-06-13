@@ -1,5 +1,3 @@
-# Build Scalable Transactional Data Service
-
+# Build Scalable Transactional Datastore
 ---
-
 ## Outline
