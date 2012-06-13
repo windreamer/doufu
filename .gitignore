@@ -11,6 +11,9 @@
 *.la
 *.a
 
+# python files
+*.pyc
+
 # autotools stuff
 Makefile
 Makefile.in
@@ -30,3 +33,6 @@ include/stamp-h1
 #output
 /barrier/barrier
 /coordinator/coordinator
+/docs/presentation/*.png
+/docs/presentation/*.html
+/docs/presentation/*.pdf
