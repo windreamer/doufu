@@ -179,6 +179,18 @@ digraph G {
 ## Calvin in Detail
 
 * Deterministic Concurrency Control
+* Implemented as Middleware
+    * _sequencer_: intercept transactions, divided into time-frames, and sort
+    * _scheduler_: execute non-conflicted transactions in parallel, conflicted transactions in serial
+    * _storage_: provide CRUD interface
+* Transaction Reordering
+    * Ordered locking: For any pair of transactions T<sub>i</sub> and T<sub>j</sub> which both request locks on some record r, if i < j then T<sub>i</sub> must request its lock on r before T<sub>j</sub> does.
+    * Execution to completion: Every transaction that enters the system must go on to run to completion
+
+---
+## Calvin Architecture
+
+
 
 <!-- 
     vim: filetype=markdown
