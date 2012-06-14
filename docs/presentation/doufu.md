@@ -176,22 +176,101 @@ digraph G {
 * Coordinator Crash Recovery
 
 ---
+## Calvin Overview
+
+* Implemented as Middleware
+    * _sequencer_: divide transaction into time-frames, and sort.
+    * _scheduler_: transaction execution.
+    * _storage_: provide CRUD interface.
+<dot>
+    digraph G {
+        size="10,4"
+        concentrate=true;  
+        zookeeper [shape="rect"];
+        subgraph cluster_0{
+            label="replica A";
+            subgraph cluster_1 {
+                label="partition";
+                style=filled;
+                color=lightgrey;
+                node [style=filled,color=white];
+                seq1 [label="sequencer" shape="rect"];
+                sche1 [label="scheduler" shape="rect"];
+                store1 [label="storage"];
+                seq1 -> sche1;
+                sche1 -> store1;
+                store1 -> sche1;
+            }
+            subgraph cluster_2 {
+                label="partition";
+                style=filled;
+                color=lightgrey;
+                node [style=filled,color=white];
+                seq2 [label="sequencer" shape="rect"];
+                sche2 [label="scheduler" shape="rect"];
+                store2 [label="storage"];
+                seq2 -> sche2;
+                sche2 -> store2;
+                store2 -> sche2;
+            }    
+            seq1 -> sche2;
+            seq2 -> sche1;
+            sche1 -> sche2;
+            sche2 -> sche1;
+        }
+        subgraph cluster_3{
+            label="replica B";
+            subgraph cluster_4 {
+                label="partition";
+                style=filled;
+                color=lightgrey;
+                node [style=filled,color=white];
+                seq4 [label="sequencer" shape="rect"];
+                sche4 [label="scheduler" shape="rect"];
+                store4 [label="storage"];
+                seq4 -> sche4;
+                sche4 -> store4;
+                store4 -> sche4;
+            }
+            subgraph cluster_5 {
+                label="partition";
+                style=filled;
+                color=lightgrey;
+                node [style=filled,color=white];
+                seq5 [label="sequencer" shape="rect"];
+                sche5 [label="scheduler" shape="rect"];
+                store5 [label="storage"];
+                seq5 -> sche5;
+                sche5 -> store5;
+                store5 -> sche5;
+            }    
+            seq4 -> sche5;
+            seq5 -> sche4;
+            sche4 -> sche5;
+            sche5 -> sche4;
+        }
+
+        zookeeper -> seq1 [dir="both"];
+        zookeeper -> seq2 [dir="both"];
+        zookeeper -> seq4 [dir="both"];
+        zookeeper -> seq5 [dir="both"];
+    }
+</dot>
+---
 ## Calvin in Detail
 
+* Paxos-based Synchronous Replication between Replicas
 * Deterministic Concurrency Control
-* Implemented as Middleware
-    * _sequencer_: intercept transactions, divided into time-frames, and sort
-    * _scheduler_: execute non-conflicted transactions in parallel, conflicted transactions in serial
-    * _storage_: provide CRUD interface
 * Transaction Reordering
-    * Ordered locking: For any pair of transactions T<sub>i</sub> and T<sub>j</sub> which both request locks on some record r, if i < j then T<sub>i</sub> must request its lock on r before T<sub>j</sub> does.
-    * Execution to completion: Every transaction that enters the system must go on to run to completion
-
----
-## Calvin Architecture
-
-
+    * Ordered locking
+    * Execution to completion
+* Transaction execution in Schedulers:
+    1. Read/write set analysis.
+    1. Perform local reads.
+    1. Serve remote reads.
+    1. Collect remote read results.
+    1. Transaction logic execution and applying writes.
 
 <!-- 
-    vim: filetype=markdown
+vim: filetype=markdown
 -->
