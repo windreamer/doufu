@@ -8,12 +8,12 @@
 
 * CAP Theorem
     * Consistency: 
-        * all nodes see the same data at the same time
+        * all nodes see the same data at the same time.
     * Availability: 
-        * a guarantee that every request receives a response about whether it was successful or failed
+        * a guarantee that every request receives a response about whether it was successful or failed.
     * Partition tolerance: 
-        * the system continues to operate despite arbitrary message loss or failure of part of the system
-* Trade-offs 
+        * the system continues to operate despite arbitrary message loss or failure of part of the system.
+* Trade-offs
     * Performance
     * Scalability
     * Transactions
@@ -23,13 +23,13 @@
 ## Datastore Overview
 
 * Redis, Memcached:
-    * high thoughput, low latency; error-prone 
+    * high thoughput, low latency; error-prone.
 * MySQL: 
-    * ACID, rich queries, decent performance; bad scalability
+    * ACID, rich queries, decent performance; bad scalability.
 * Dynamo:
-    * linear scalability, high availability; eventually consistency
+    * linear scalability, high availability; eventually consistency.
 * MongoDB:
-    * high performance, high availability; eventually consistency
+    * high performance, high availability; eventually consistency.
 
 _How about Scalable Transactionl Datastore?_  
 __Barely nothing.__  
@@ -41,14 +41,14 @@ __Barely nothing.__
 ---
 ## Needs & Facts
 
-* Why
+* Why?
     * Large Billing & Payments System:
         * PayPal, Alipay, ...
     * E-Commerce Website:
         * Amazon, Taobao, [12306.cn](http://www.12306.cn), ...
     * Online Advertising and Marketing:
         * Google, ...
-* Why not
+* Why not?
     * Complexity, extremely in large distributed environment.
     * High latency
     * Low thoughput
@@ -59,15 +59,15 @@ __Barely nothing.__
 ## Solutions
 
 * [Sinfonia][]:
-    * By Marcos K. Aguilera et al. in 2006 at HP Lab
-    * Layered architecture based on Distributed Shared Address Space
-    * Short-lived two phrase commit protocol
-    * Strong consistency, good scalability, fault-tolerance, decent performance
+    * By Marcos K. Aguilera et al. in 2006 at HP Lab.
+    * Layered architecture based on Distributed Shared Address Space.
+    * Short-lived two phrase commit protocol.
+    * Strong consistency, good scalability, fault-tolerance, decent performance.
 * [Calvin][]
-    * By Alexander Thomson et al. in 2012 at Yale University
-    * Transaction scheduling and data replication middleware
-    * Rearrange transactions in deterministic order
-    * Strong consistency, linear scalability, fault-tolerance, high thoughput, affordable latency
+    * By Alexander Thomson et al. in 2012 at Yale University.
+    * Transaction scheduling and data replication middleware.
+    * Rearrange transactions in deterministic order.
+    * Strong consistency, linear scalability, fault-tolerance, high thoughput, affordable latency.
 
 [Sinfonia]: http://www.hpl.hp.com/research/ispil/projects/sinfonia/index.html
 [Calvin]: http://dl.acm.org/citation.cfm?id=2213838
@@ -286,12 +286,12 @@ digraph G {
 ---
 ## Integrate the two models
 
-* Minitransaction suits Calvin well
+* Minitransaction suits Calvin well:
     * Read/write sets predeclared
     * Short-lived
 * Lock ordering improve thoughput in Sinfonia
 * Adopt Sinfonia architecture to simplify Calvin
-* Implemented as two counterpart policies
+* Implemented as two counterpart policies:
     * Sinfonia: fast fail, lower thoughput
     * Calvin: high latency, high thoughput
 * Separated storage layer for flexibility
@@ -394,10 +394,10 @@ digraph G {
     * Able to use existing facility, such as redis.
     * High availability required.
     * Extra latency.
+* Key-value Table instead of Linear Address Space.
 * Barrier layer manage read and write locks.
 * Minitransaction as unified interface.
     * Hide model differences.
-    * Model policy per index tree
     * compares lead to transaction restart.
 * Dirty read to reduce network trip.
 * Append-Only data file make transactions easy, and is needed by MVCC.
