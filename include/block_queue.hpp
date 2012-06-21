@@ -15,19 +15,29 @@ namespace doufu
         block_queue(): stop(false) {}
         ~block_queue()
         {
+            clear();
+        }
+
+        void clear()
+        {
+            scoped_lock lock(queue_mutex);
+            while(!queue.empty())
+            {
+                queue.pop();
+            }
             stop = true;
             cond.signal(true);
         }
 
         bool empty()
         {
-            scoped_lock(queue_mutex);
+            scoped_lock lock(queue_mutex);
             return queue.empty();
         }
 
         size_t size()
         {
-            scoped_lock(queue_mutex);
+            scoped_lock lock(queue_mutex);
             return queue.size();
         }
 
@@ -39,18 +49,24 @@ namespace doufu
                 cond.wait(queue_mutex);
             }
 
-            if(!queue.empty())
+            if(stop)
             {
-                value = queue.front();
-                queue.pop();
-                return true;
+                return false;
             }
-            return false;
+
+            value = queue.front();
+            queue.pop();
+            return true;
         }
 
         value_type& push(const value_type& t)
         {
             scoped_lock lock(queue_mutex);
+            if(stop)
+            {
+                return;
+            }
+
             queue.push(t);
             if(1 == queue.size())
             {
