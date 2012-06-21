@@ -107,7 +107,7 @@ digraph G {
             shape = "record"
             ];
         node6 [
-            label = "<f0> write|<f1> id|<f2> addr|<f3> len|<f4> data"
+            label = "<f0> mem-id|<f1> addr|<f2> len|<f3> data"
             shape = "record"
             ];
     }
