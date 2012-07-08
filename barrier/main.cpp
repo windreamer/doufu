@@ -9,21 +9,8 @@
 using namespace doufu;
 using namespace std;
 
-struct sig_handler
-{
-    void handle(ev::sig &signal, int revents)
-    {
-        signal.loop.break_loop();
-    }
-};
-
 int main ()
 {
-    sig_handler sig;
-    ev::sig sio;
-    sio.set<sig_handler, &sig_handler::handle>(&sig);
-    sio.start(SIGINT);
-
     block_queue<pair<uint32_t, msgpack::object> > task_queue;
     block_queue<pair<uint32_t, msgpack::object> > resp_queue;
 
@@ -35,8 +22,7 @@ int main ()
     }
 
 
-    ev::default_loop loop;
-    loop.run();
+    server s(8405);
     task_queue.clear();
     resp_queue.clear();
 
